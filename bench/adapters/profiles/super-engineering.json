@@ -59,7 +59,7 @@
       {
         "kind": "run",
         "argv": [
-          "/Applications/super.engineering.app/Contents/MacOS/sc",
+          "/Applications/super.engineering.app/Contents/MacOS/se",
           "workspace",
           "open",
           "${worktree}",
@@ -164,7 +164,7 @@
       "/Users/ademark/.local/share/claude/versions/"
     ]
   },
-  "orchestrationTrigger": "Use the `sc` CLI to orchestrate this change.",
+  "orchestrationTrigger": "Use the `se` CLI to orchestrate this change.",
   "orchestration": {
     "settings": [
       {
@@ -196,7 +196,8 @@
     "2026-10-24: the build renamed its bundle to /Applications/super.engineering.app on first launch; adapter, profile and pin now use that path.",
     "Repair 2026-11-07 attempt 1 gate results (calibrate gate --runs 1 --scratch --agent claude,own). With ADEMARK_BASELINE set (run control-2026-11-07T08-15-55Z) both tries stop at the contamination check before super.engineering is driven: bare claude body 9f4eb621... != baseline 3039327d..., the same drift outside the ADE that stopped prove-2 B for this ADE and for monocode, diri and the others; no file of this ADE can change it, so the orchestrator must find the drift or re-baseline the run. Diagnostic run with the baseline unset (gate-super-engineering-2026-11-07T11-28-57Z-1, this profile): reset with the seed, launch, sc open, cmd+t, paste and Enter all work, every waitDone found end of turn in ~/.claude/projects/-Users-ademark-arena-super-engineering/, and every test except A11 passed.",
     "A11 open still times out, and no profile field can fix it: the chat UI drains a long turn far behind the CLI. The 2000-message thread's session log ended at 06:32:26 (waitDone done), but the open tab still showed a live 'Step N of 1000' ticker: step 544 in frames-setup and 557-560 in frames-open 6 s later, about 7 steps/s, so LONGTHREAD-END appears about a minute after the log ends, after the 30 s open watch. The palette did open the long thread at about 1.04 s after t0 (frames-open: 'replay:long-2000 ... Step 1 of 1000'); the switch back with 'replay:seed' passed at 1032 ms (the trigger's two 400 ms waits are part of that time). Later, once caught up, the same tab shows 'Step 1 of 1000 / Read 1 file / LONGTHREAD-END ... 1001 turns' inside threadRect (checked). waitDone.idleFallback only applies when no session log is found, so A11 needs the harness to wait until the long thread's end is on screen before the first repetition.",
-    "2026-11-11, C1: the seed's settings.json has experimental.agent_orchestration false (Settings > Experimental > Agent orchestration), and the app binary answers every orchestration command with 'agent orchestration is disabled in super.engineering settings' while it is off. A Track C block sets it true after the reset and before the launch (orchestration.settings); every other track keeps the vendor's default. Its orchestration is the sc CLI (sc team run, sc agent send, sc layout run), which opens chats of their own, so C1 needs two client sessions at work (orchestration.workers)."
+    "2026-11-11, C1: the seed's settings.json has experimental.agent_orchestration false (Settings > Experimental > Agent orchestration), and the app binary answers every orchestration command with 'agent orchestration is disabled in super.engineering settings' while it is off. A Track C block sets it true after the reset and before the launch (orchestration.settings); every other track keeps the vendor's default. Its orchestration is the sc CLI (sc team run, sc agent send, sc layout run), which opens chats of their own, so C1 needs two client sessions at work (orchestration.workers).",
+    "2026-11-22, nightly dc0520a9: the bundled CLI is now `se` (Contents/MacOS holds super.engineering and se; sc is gone). `se workspace open PATH [--activate] [--json]` has the same syntax (se workspace open --help), so steps.openProject and the trigger line only change the name. `se instructions orchestration` still starts orchestration only when the human asks to orchestrate."
   ],
   "agentGuide": "Cmd+T opens a new chat tab; Cmd+N makes a new worktree, which is not what we want. The chat box is at the bottom of the center pane."
 }
