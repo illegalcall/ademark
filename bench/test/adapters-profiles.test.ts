@@ -620,7 +620,9 @@ describe("Cloudroom's text checks read the real new-thread screen of 150", () =>
 // 2026-11-11: on Superset 2.0.8 the second fixed click of openProject lands inside the composer, so the typed folder
 // path and the two Enters that followed would have sent the path as a message. Nothing is typed by a fixed step now.
 describe("Superset's openProject types nothing by itself (2.0.8)", () => {
-  test("only the screen agent acts, and a last look fails unless the project reads superset", () => {
+  // 2026-11-22: Track C opens ~/arena/superset-C1-1 and Superset names a project after its folder, so the goals check
+  // the folder name of ${worktree}, not the literal 'superset'.
+  test("only the screen agent acts, and a last look fails unless the project reads the folder name", () => {
     const steps = loadProfile("superset").steps.openProject ?? [];
     expect(steps.filter((step) => step.kind === "type" || step.kind === "enter" || step.kind === "click" || step.kind === "keys")).toEqual([]);
     const goals = steps.flatMap((step) => (step.kind === "goal" ? [step] : []));
@@ -628,7 +630,9 @@ describe("Superset's openProject types nothing by itself (2.0.8)", () => {
     expect(goals[0]!.goal).toContain("Never type anything unless that file dialog is on the screen");
     expect(goals[0]!.goal).toContain("never send a message");
     expect(goals[1]!.maxActions).toBe(1);
-    expect(goals[1]!.goal).toContain("must read 'superset'");
+    expect(goals[1]!.goal).toContain("must read the name of the folder ${worktree}");
+    expect(goals[1]!.goal).not.toContain("'superset'");
+    expect(goals[0]!.goal).toContain("Make it read the name of the folder ${worktree}");
     expect(steps.at(-1)).toBe(goals[1]!);
   });
 });

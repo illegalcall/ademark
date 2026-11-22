@@ -14,7 +14,8 @@
       "Orca Terminal Host",
       "orca-notification-status",
       "orca-keyboard-layout",
-      "orca-terminal-host"
+      "orca-terminal-host",
+      "Orca Agents"
     ]
   },
   "window": {
@@ -61,7 +62,8 @@
       "~/Library/Application Support/Orca"
     ],
     "launchAgents": [
-      "com.stablyai.orca.terminal.87499b080a45f1e3.v55"
+      "com.stablyai.orca.terminal.87499b080a45f1e3.v55",
+      "com.stablyai.orca.terminal.87499b080a45f1e3.v61"
     ]
   },
   "login": {
@@ -212,7 +214,8 @@
       "~/.orca"
     ],
     "launchAgentLabels": [
-      "com.stablyai.orca.terminal.87499b080a45f1e3.v55"
+      "com.stablyai.orca.terminal.87499b080a45f1e3.v55",
+      "com.stablyai.orca.terminal.87499b080a45f1e3.v61"
     ],
     "teamId": "6CX3WHS9HZ",
     "agentExecutables": [
@@ -251,7 +254,8 @@
     "2026-11-09 (ADEMARK-42): A2 and A1 run steps.beforeRelaunchQuit and steps.beforeColdQuit, untimed, before their quit: orca terminal close --worktree path:<arena> --all (the command that closed the tabs on 2026-11-07), then cmd+alt+t and the 6 s of timed.newThread, so Orca restores exactly one fresh Claude tab. Evidence: control-2026-11-09T04-18-06Z-orca-1 A9/rep-03/processes-no-sessions.json held about 50 zsh and Claude 2.1.303 pairs under orca-terminal-host after a quit, and A1 rep-02/video.mov at 1.2 s shows `zsh: command not found: dclaude`, a probe letter typed before Orca's own `claude --resume`. Not yet checked on the real screen: that cmd+alt+t still finds an active workspace after the close.",
     "2026-11-10 (ADEMARK-53): steps.beforeRelaunchQuit and steps.beforeColdQuit are empty again. Evidence, control-2026-11-10T08-31-19Z-orca-1 and -orca-topup-1: A2 rep 1 of the top-up ran the close, cmd+alt+t and the quit, and the relaunched window (video.mov at 20 s and 58 s) showed the arena workspace with no tab at all, so no prompt line and timed_out. Each repetition ends with its own quit, so the next step ran on a stopped app and `orca terminal close` exited 1 with 'Could not read Orca runtime metadata ... Start the Orca app first' (the CLI needs the running app's orca-runtime.json). A failed step is now a note on the row, not its reason. Without the steps A1 and A2 meet the 9 Nov states again: a probe in the shell before `claude --resume` (PROBE_IN_SHELL_REASON) and a busy terminal host after the quit (A2 ends with the sweep reason).",
     "2026-11-10 (ADEMARK-53): A3 is excluded (excludeTests.A3). Evidence, control-2026-11-10T08-31-19Z-orca-1 A3/rep-02/video.mov at 3 s and -orca-topup-1 A3/rep-04 at 3 s: after cmd+alt+t the new tab is a zsh prompt, the probe's first letter lands before Orca's `claude --plugin-dir ... --dangerously-skip-permissions`, zsh answers 'command not found: eclaude' (or dclaude), and the probe letters pile up at the shell prompt at y 112, far from composerRect. The composer region read only 'Your n' from 8.5 s on. No Claude tab starts, so no Ready frame exists. A wait would have to sit inside the stopwatch.",
-    "2026-11-11, C1: the installed build 1.4.249 has no orca.orchestration.enabled key; its orchestration is the orca orchestration CLI with child agents in their own worktrees, and its own examples read 'Use /orchestration to split this ... across parallel child agents'. The bench account has no ~/.claude/skills/orchestration, so whether /orchestration reaches the agent is still a GUI check. C1 counts only with two client sessions at work (orchestration.workers): a run of Claude Code subagents inside one session is not Orca's orchestration."
+    "2026-11-11, C1: the installed build 1.4.249 has no orca.orchestration.enabled key; its orchestration is the orca orchestration CLI with child agents in their own worktrees, and its own examples read 'Use /orchestration to split this ... across parallel child agents'. The bench account has no ~/.claude/skills/orchestration, so whether /orchestration reaches the agent is still a GUI check. C1 counts only with two client sessions at work (orchestration.workers): a run of Claude Code subagents inside one session is not Orca's orchestration.",
+    "2026-11-22, 1.4.269: the asar builds the terminal LaunchAgent label as com.stablyai.orca.terminal.<first 16 hex of sha256(resolved userData)>.v<t> with t=61 by default (function lu(e,t=61)), and the helper app is Contents/Helpers/Orca Agents.app. sha256('/Users/ademark/Library/Application Support/orca') starts 87499b080a45f1e3, the hash of the v55 label, so the v61 label is added next to v55 (a bootout of a missing label is a no-op) and 'Orca Agents' joins processNames."
   ],
   "agentGuide": "The agent runs in terminal tabs: Cmd+Alt+T opens a new Claude terminal, and its prompt line at the bottom is where you type. A plain shell tab is not the agent.",
   "excludeTests": {
