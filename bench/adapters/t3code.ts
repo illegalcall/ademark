@@ -6,7 +6,6 @@ import {
   isRealRun,
   killPids,
   moveAside,
-  openBundle,
   paste,
   pause,
   pidsFor,
@@ -153,7 +152,8 @@ export const t3code: Adapter = {
     const newThread: Trigger[] =
       calibration.newThreadShortcut === null ? [] : [{ kind: "keys", combo: calibration.newThreadShortcut }];
     return {
-      launch: [{ kind: "open", bundleId: BUNDLE_ID }],
+      // By path: T3 Code (Nightly).app shares the bundle id, and `open -b` picks the highest version (22 Nov 2026).
+      launch: [{ kind: "open", appPath: APP_PATH }],
       newThread,
       send: [{ kind: "enter" }],
       // A11: `thread.jump.N` in ~/.t3/userdata/keybindings.json follows the sidebar, newest created first
@@ -198,7 +198,8 @@ export const t3code: Adapter = {
     isRealRun(ctx);
     for (const name of Object.keys(ctx.env).sort()) setenv(ctx, name, ctx.env[name]!);
     setTelemetry(ctx);
-    openBundle(ctx, BUNDLE_ID);
+    // By path, not `open -b`: T3 Code (Nightly).app 0.1.12 has the same bundle id, and LaunchServices would open it.
+    runTool(ctx, ["open", APP_PATH]);
     const pid = await waitForPid(ctx, APP_HINTS, APP_LAUNCH_TIMEOUT_MS);
     if (!ctx.dryRun && pid === null) throw new Error(`${APP_NAME} did not start within 30 s`);
     state.pid = pid;

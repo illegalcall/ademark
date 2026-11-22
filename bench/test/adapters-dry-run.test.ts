@@ -294,7 +294,7 @@ describe("t3code dry run", () => {
       "plan: setenv ANTHROPIC_BASE_URL=http://127.0.0.1:8787",
       "plan: setenv OPENAI_BASE_URL=http://127.0.0.1:8787/v1",
       "plan: setenv T3CODE_TELEMETRY_ENABLED=false",
-      "plan: openBundle com.t3tools.t3code",
+      "plan: run open /Applications/T3 Code (Beta).app",
       "plan: waitForPid bundlePaths=/Applications/T3 Code (Beta).app names=T3 Code (Beta) timeoutMs=30000",
       "plan: window pid=0 size=1600x1000",
       "plan: pause ms=8000",
@@ -329,7 +329,7 @@ describe("t3code dry run", () => {
   test("timed declares the launch, send and A11 triggers; A3 waits for the pilot's shortcut", () => {
     t3CodeCalibration.newThreadShortcut = null;
     expect(t3code.timed).toEqual({
-      launch: [{ kind: "open", bundleId: "com.t3tools.t3code" }],
+      launch: [{ kind: "open", appPath: "/Applications/T3 Code (Beta).app" }],
       newThread: [],
       send: [{ kind: "enter" }],
       longThread: [{ kind: "keys", combo: "cmd+1" }],
