@@ -3,8 +3,8 @@
   "ade": "claude-desktop",
   "app": {
     "path": "/Applications/Claude.app",
-    "version": "6.6395.1",
-    "bundleSha256": "36b0bbd90cce6366081ed3072758b3a75cf9328576776fa6e0805f053fa2e06b",
+    "version": "6.28899.6",
+    "bundleSha256": "541400dcb4b9e0f28853258a91ca532181a7cd2d764eaeeb6cebacf89616c207",
     "processNames": [
       "Claude"
     ]

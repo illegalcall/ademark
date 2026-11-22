@@ -3,8 +3,8 @@
   "ade": "paseo",
   "app": {
     "path": "/Applications/Paseo.app",
-    "version": "0.16.2",
-    "bundleSha256": "321a2c0514f488fbc9136524f2b295572e3c5914f381dd5c64b278e53c6f1243",
+    "version": "0.17.1",
+    "bundleSha256": "475d5f15853d084efdcf0df5126bbc88f63e487f0d6b793b82d343de4dc89180",
     "processNames": [
       "Paseo",
       "Paseo Helper",

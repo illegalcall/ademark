@@ -3,8 +3,8 @@
   "ade": "cloudroom",
   "app": {
     "path": "/Applications/Cloudroom.app",
-    "version": "160.0.0",
-    "bundleSha256": "0c40f4271428ad2996fb19db1894019699de28c6cbb7ef652ab2f0a206ed3c63",
+    "version": "162.0.0",
+    "bundleSha256": "d80373bb1ce96ab6a818a59fe37f488c83019509c2c3c9909285ab44ccdd6d79",
     "processNames": [
       "Cloudroom",
       "Cloudroom Helper",
