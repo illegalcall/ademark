@@ -253,7 +253,7 @@ Adapter `bb`:
 |---|---|
 | Adapter ID | `paseo` (`bench/adapters/paseo.ts`) |
 | Maker, URL, license | Mohamed Boudra (solo, sponsor-funded), https://paseo.sh, github.com/getpaseo/paseo, Apache-2.0 (LICENSE file) |
-| Version | 0.16.2, 2026-11-21 (verify at freeze). 0.12.0 is beta: do not use |
+| Version | 0.17.1, 2026-11-22 (verify at freeze). 0.12.0 is beta: do not use |
 | On bench Mac | yes, 0.12.0, Electron 44.2.0 |
 | Family | EL-SDK |
 | Data to move aside | `~/.paseo` (`config.json`, `daemon.log`, worktrees in `~/.paseo/worktrees`) |
@@ -291,7 +291,7 @@ Adapter `paseo`:
 |---|---|
 | Adapter ID | `synara` (`bench/adapters/synara.ts`) |
 | Maker, URL, license | Emanuele Di Pietro, https://trysynara.com, github.com/Emanuele-web04/synara, MIT (LICENSE names T3 Tools Inc.: a fork of T3 Code) |
-| Version | 1.6.4, 2026-11-21 (verify at freeze). Remote prereleases exist: do not use |
+| Version | 1.6.5, 2026-11-22 (verify at freeze). Remote prereleases exist: do not use |
 | On bench Mac | yes, 1.0.7, Electron 43.4.1 |
 | Family | EL-SDK |
 | Data to move aside | `~/.synara/` (`userdata/state.sqlite`, `logs/provider/events.log`, worktrees in `~/.synara/worktrees`); `SYNARA_HOME` overrides it |
@@ -367,7 +367,7 @@ Adapter `traycer`:
 |---|---|
 | Adapter ID | `cloudroom` (`bench/adapters/cloudroom.ts`) |
 | Maker, URL, license | David Ondrej, https://www.cloudroom.dev, github.com/davidondrej/cloudroom-gui and cloudroom-core, Apache-2.0 |
-| Version | desktop 160, 2026-11-21 (verify at freeze). Eight versions in six days: pin hard |
+| Version | desktop 162, 2026-11-22 (verify at freeze). Eight versions in six days: pin hard |
 | On bench Mac | yes, v104, Electron 44.3.0. The v110 installer is in `pins/` and replaces v104 in the `ademark` account |
 | Family | EL-SDK |
 | Data to move aside | `~/.cloudroom/skills`; thread database path unknown, find in pilot |
@@ -443,7 +443,7 @@ Adapter `superset`:
 |---|---|
 | Adapter ID | `orca` (`bench/adapters/orca.ts`) |
 | Maker, URL, license | Stably AI (YC), https://www.onorca.dev, github.com/stablyai/orca, MIT |
-| Version | 1.4.267, 2026-11-21 (verify at freeze). Ships almost daily: pin hard |
+| Version | 1.4.269, 2026-11-22 (verify at freeze). Ships almost daily: pin hard |
 | On bench Mac | yes, 1.4.230, Electron 43.7.8 |
 | Family | EL-PTY |
 | Data to move aside | Electron userData folder (path unknown, find in pilot) |
@@ -519,7 +519,7 @@ Adapter `emdash`:
 |---|---|
 | Adapter ID | `zeron` (`bench/adapters/zeron.ts`) |
 | Maker, URL, license | 1499487 B.C. LTD, https://zeron.sh, github.com/zeronsh/zeron, MIT. Formerly "Comet" |
-| Version | 0.3.13, 2026-11-21 (verify at freeze). Ships every 1 to 3 days. Test upstream, never the author's fork; publish the binary SHA-256 |
+| Version | 0.3.15, 2026-11-22 (verify at freeze). Ships every 1 to 3 days. Test upstream, never the author's fork; publish the binary SHA-256 |
 | On bench Mac | yes, 0.2.114 (upstream) |
 | Family | NATIVE (Rust, GPUI; it used to be Electron) |
 | Data to move aside | `~/.zeron/profiles/local/` (`ZERON_DATA_DIR` overrides it); worktrees in `~/.zeron/worktrees` |
@@ -633,7 +633,7 @@ Adapter `monocode`:
 |---|---|
 | Adapter ID | `super-engineering` (`bench/adapters/super-engineering.ts`) |
 | Maker, URL, license | Super Dot Engineering LLC, https://super.engineering, closed source, proprietary. The app is still `Superconductor.app`, bundle id `engineering.super.app` |
-| Version | nightly builds only, no version number. Bench build: DMG `15aae8f8`, 2026-10-16. Archive the DMG and publish the app binary SHA-256 and build date |
+| Version | nightly builds only, no version number. Bench build: nightly `dc0520a9`, 2026-11-21, from `https://releases.super.engineering/latest-v2.json` (bundle `engineering.super.app`). Archive the DMG and publish the app binary SHA-256 and build date |
 | On bench Mac | yes, nightly `15aae8f8` (`Superconductor.app`) |
 | Family | NATIVE (Rust, GPUI; macOS 14+) |
 | Data to move aside | `~/.super.engineering` (older profiles are symlinked) |
@@ -748,7 +748,7 @@ Adapter `capy`:
 |---|---|
 | Adapter ID | `claude-desktop` (`bench/adapters/claude-desktop.ts`) |
 | Maker, URL | Anthropic, https://code.claude.com/docs/en/desktop |
-| Version | 6.28899.2, 2026-11-21 (verify at freeze; Homebrew cask auto-updates) |
+| Version | 6.28899.6, 2026-11-22 (verify at freeze; Homebrew cask auto-updates) |
 | On bench Mac | yes, 2.42304.2 (`Claude.app`) |
 | Family | FIRST (Electron 44.7.2) |
 | Data to move aside | unknown, find in pilot. It reads the same settings files as the Claude Code CLI, so the `~/.claude` snapshot applies. Worktrees go to `<project-root>/.claude/worktrees/` by default |

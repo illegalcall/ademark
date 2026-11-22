@@ -228,7 +228,7 @@ main() {
       'T3-Code-.*-arm64\.dmg$' 'T3 Code (Beta).app'
   fi
   if want synara; then
-    install_github synara Emanuele-web04/synara v1.6.4 \
+    install_github synara Emanuele-web04/synara v1.6.5 \
       'Synara-.*-arm64\.dmg$' 'Synara.app'
   fi
   if want bb; then
@@ -236,7 +236,7 @@ main() {
       'bb-.*-arm64\.dmg$' 'bb.app'
   fi
   if want paseo; then
-    install_github paseo getpaseo/paseo v0.16.2 \
+    install_github paseo getpaseo/paseo v0.17.1 \
       'Paseo-.*-arm64\.dmg$' 'Paseo.app'
   fi
   if want traycer; then
@@ -244,7 +244,7 @@ main() {
       'traycer-desktop-macos-arm64\.dmg$' 'Traycer.app'
   fi
   if want orca; then
-    install_github orca stablyai/orca v1.4.268 \
+    install_github orca stablyai/orca v1.4.269 \
       'Orca-.*-arm64-mac\.zip$' 'Orca.app' \
       'release ships a zip, not a dmg; extracted .app is ditto-copied the same way'
   fi
@@ -253,9 +253,9 @@ main() {
       'emdash-arm64\.dmg$' 'Emdash.app'
   fi
   if want zeron; then
-    install_github zeron zeronsh/zeron v0.3.14 \
+    install_github zeron zeronsh/zeron v0.3.15 \
       'zeron-.*-macos-arm64\.dmg$' 'Zeron.app' \
-      'v0.3.14 is newer than the v0.3.13 in the brief; latest public tag used'
+      'latest public tag on 22 Nov 2026'
   fi
   if want diri; then
     install_github diri cristicretu/diri v0.11.6 \
@@ -271,17 +271,17 @@ main() {
       'if the extracted bundle is Paradev.app, profiles need: app.path -> /Applications/Paradev.app, app.bundleId, and a check whether the data dir moved from ~/.superset to ~/.paradev (2.0.8 still used ~/.superset)'
   fi
   if want cloudroom; then
-    install_github cloudroom davidondrej/cloudroom gui-v160 \
-      'Cloudroom-v160-arm64\.dmg$' 'Cloudroom.app'
+    install_github cloudroom davidondrej/cloudroom gui-v162 \
+      'Cloudroom-v[0-9]+-arm64\.dmg$' 'Cloudroom.app'
   fi
   if want capy; then
     install_todo capy 'capy.ai/download is JS-rendered; no direct installer URL verified. Find the real asset link on https://capy.ai/download (installed 0.9.2 already matches the v2 target)'
   fi
   if want claude; then
-    install_todo claude 'claude.com/download is JS-rendered; candidate API dmg endpoint returned 403. Get the dmg link from https://claude.com/download in a browser'
+    install_todo claude 'claude.com/download is JS-rendered. The Homebrew cask API (https://formulae.brew.sh/api/cask/claude.json) gives the official downloads.claude.ai zip and its sha256: check the hash, codesign, notarization and team Q6L2SF6YDW before replacing the bundle (6.28899.6 on 22 Nov 2026)'
   fi
   if want super-engineering; then
-    install_todo super-engineering 'super.engineering/download is JS-rendered and no public repo with releases was found; get the installer link from https://super.engineering/download/'
+    install_todo super-engineering 'nightly only. https://releases.super.engineering/latest-v2.json gives the dmg and its sha256 per bundle id (use engineering.super.app): check the hash, codesign, notarization and team MR38E36N26 before replacing the bundle (dc0520a9 on 22 Nov 2026)'
   fi
 
   log "done."
