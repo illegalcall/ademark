@@ -2,6 +2,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, statfsSync, statSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
+import { CLAUDE_SETTINGS_ENV_KEYS, syncClaudeSettingsEnv } from "../adapters/macos.ts";
 import { loadProfile } from "../adapters/profile.ts";
 import { getAdapter } from "../adapters/registry.ts";
 import type { Agent, ResultRow } from "../core/contracts.ts";
@@ -148,8 +149,23 @@ export function claudeAnswered(code: number, stream: string): boolean {
   }
 }
 
+/**
+ * A block that dies before its quit (a step cut at its limit) can leave Superset's replay URL in
+ * ~/.claude/settings.json. The next block clears it (bench/run/loop.ts), but the probe below runs before any block, so
+ * it would ask a replay server that is gone, wait 6 hours and skip every late step. Clear the same managed keys first.
+ * Outside the ademark user it changes nothing.
+ */
+export function clearReplayEnvForProbe(home: string = homedir(), log: (line: string) => void = () => {}): void {
+  try {
+    syncClaudeSettingsEnv({ runDir: home, arenaPath: home, worktree: home, home, env: {}, dryRun: false, log }, CLAUDE_SETTINGS_ENV_KEYS, {});
+  } catch (error) {
+    log(`probe: managed Claude settings keys not cleared: ${error instanceof Error ? error.message : String(error)}`);
+  }
+}
+
 /** One call of the pinned model, as the apps make it: false for a plan at its limit or a lost sign-in. */
 async function claudeAnswers(): Promise<boolean> {
+  clearReplayEnvForProbe();
   const pin = MODEL_PINS.claude;
   const claude = await textOf(
     [join(homedir(), ".local/bin/claude"), "-p", "Reply with only the word ok", "--model", pin.model!, "--effort", pin.effort!,
