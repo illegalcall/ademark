@@ -558,11 +558,21 @@ describe("Conductor and Cloudroom start from the screenshots of 10 Nov (ADEMARK-
       "plan: clickIfText pid=0 texts=Get started|started region=1268,364,160,26 at=1551,597 timeoutMs=2000",
       "plan: clickIfText pid=0 texts=version|Restart|update|password|ready|new version of Cloudroom|Cloudroom is ready " +
         "region=340,12,860,28 at=1566,26 timeoutMs=2000 confirmGone",
-      "plan: clickIfText pid=0 texts=Get started|started region=1268,312,160,26 at=1551,545 timeoutMs=2000",
+      // 162 (22 Nov): the card of the new-thread route, measured on the wait screenshots, after the first cmd+n.
+      "plan: clickIfText pid=0 texts=Get started|started region=1276,489,160,26 at=1559,722 timeoutMs=2000",
     ]);
-    const lastConditional = lines.lastIndexOf(conditional[2]!);
-    expect(lastConditional).toBeLessThan(lines.findIndex((line) => line.includes("settings ui set")));
-    expect(lines.filter((line) => line.includes("text=One-click"))).toHaveLength(2);
+    expect(lines.indexOf(conditional[1]!)).toBeLessThan(lines.findIndex((line) => line.includes("settings ui set")));
+    // Only the new-thread route puts the 162 card there: right after the first cmd+n of afterLaunch and its 2 s wait,
+    // before the project guard and the fixed click on the environment selector.
+    const card162 = lines.indexOf(conditional[2]!);
+    expect(lines.slice(card162 - 2, card162 + 3)).toEqual([
+      "plan: press pid=0 combo=cmd+n",
+      "plan: pause ms=2000",
+      conditional[2]!,
+      "plan: waitForText pid=0 texts=project|proiect|arena",
+      "plan: click pid=0 at=765,210 count=1",
+    ]);
+    expect(lines.filter((line) => line.includes("texts=project|proiect|arena"))).toHaveLength(2);
     expect(lines.filter((line) => line.includes("text=Full"))).toHaveLength(2);
     // Restart to update (x 1412 to 1536, y about 12 to 40) is never a click point of any step.
     const points = lines.flatMap((line) => [...line.matchAll(/at=(\d+),(\d+)/g)].map((m) => [Number(m[1]), Number(m[2])]));
@@ -602,7 +612,8 @@ describe("Cloudroom's text checks read the real new-thread screen of 150", () =>
     const checks = [...(profile.steps.afterLaunch ?? []), ...(profile.steps.openProject ?? [])].flatMap((step) =>
       step.kind === "expectText" ? [step] : [],
     );
-    expect(checks.map((step) => step.text)).toEqual(["One-click", "Full", "One-click", "Full", "arena", "High"]);
+    const guard = "project|proiect|arena";
+    expect(checks.map((step) => step.text ?? step.texts?.join("|"))).toEqual([guard, "Full", guard, "Full", "arena", "High"]);
     for (const step of checks) {
       const lines = read(step.region);
       const texts = step.texts ?? [step.text as string];
@@ -614,6 +625,39 @@ describe("Cloudroom's text checks read the real new-thread screen of 150", () =>
   test("the sidebar footer and the old 'High' region do not read, so they stay out of the profile", () => {
     expect(read({ x: 250, y: 963, w: 70, h: 28 })).toEqual([]);
     expect(read({ x: 716, y: 152, w: 100, h: 28 }).some((line) => plain(line).includes("high"))).toBe(false);
+  });
+});
+
+// 2026-11-22: Cloudroom 162 has no 'One-click prompts', so afterLaunch[10] stopped every block. The guard now reads the
+// project selector, and the Get started card sits lower. The fixture is a wait screenshot of that night
+// (control-2026-11-22T09-46-47Z-cloudroom-2/waits/2026-11-22T16-24-18-902Z-One-click.png): the empty new thread of 162.
+describe("Cloudroom's afterLaunch reads the real new-thread screen of 162", () => {
+  const frame = join(import.meta.dir, "fixtures", "cloudroom-162-new-thread.png");
+  const helper = join(import.meta.dir, "..", "native", "bin", "ademark-native");
+  const plain = (text: string): string => text.toLowerCase().replace(/[^a-z0-9]/g, "");
+  const read = (region: { x: number; y: number; w: number; h: number }): string[] => {
+    const out = Bun.spawnSync([helper, "ocr", "--image", frame, "--region", `${region.x},${region.y},${region.w},${region.h}`]);
+    return (JSON.parse(out.stdout.toString()) as { lines: string[] }).lines;
+  };
+  const finds = (lines: string[], texts: readonly string[]): boolean =>
+    lines.some((line) => texts.some((text) => plain(line).includes(plain(text))));
+
+  test("every expectText of afterLaunch and the 162 card step find their text", () => {
+    const steps = loadProfile("cloudroom").steps.afterLaunch ?? [];
+    for (const step of steps) {
+      if (step.kind !== "expectText") continue;
+      const lines = read(step.region);
+      expect({ region: step.region, lines, found: finds(lines, step.texts ?? [step.text as string]) }).toMatchObject({ found: true });
+    }
+    const card = steps.find((step) => step.kind === "clickIfText" && step.point.x === 1559 && step.point.y === 722);
+    expect(card?.kind).toBe("clickIfText");
+    if (card?.kind === "clickIfText") expect(finds(read(card.region), card.texts)).toBe(true);
+  });
+
+  test("the old One-click region and the old card regions read nothing on 162", () => {
+    expect(read({ x: 860, y: 255, w: 120, h: 24 })).toEqual([]);
+    expect(read({ x: 1268, y: 312, w: 160, h: 26 })).toEqual([]);
+    expect(read({ x: 1268, y: 364, w: 160, h: 26 })).toEqual([]);
   });
 });
 

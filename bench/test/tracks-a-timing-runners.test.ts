@@ -1290,6 +1290,9 @@ describe("Ready must come from the probe, not from ordinary text (ADEMARK-55 rev
     const placeholders: Record<string, string> = {
       bb: "Ask anything. @ to mention files, folders, or sections",
       traycer: "Ask anything, @tag files/folder, or use / to show available commands",
+      // 22 Nov: Paseo 0.17.1's placeholder, and Orca 1.4.269's restore command that wraps into its composer region.
+      paseo: "Message the agent, tag @files, or use /commands and /skills",
+      orca: "claude --plugin-dir '/Users/ademark/Library/Application Support/orca/claude-agent-view/e60884a74ded385a14bb/orca-agent-view' '--dangerously-skip-permissions' '--effort' 'high' '--resume' '559ef064-7853-42f5-9cd6-166e962c550b'",
     };
     for (const [ade, placeholder] of Object.entries(placeholders)) {
       const profile = JSON.parse(readFileSync(join(import.meta.dir, "..", "adapters", "profiles", `${ade}.json`), "utf8")) as { calibration: { probe?: string } };

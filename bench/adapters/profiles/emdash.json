@@ -84,23 +84,59 @@
   "steps": {
     "afterLaunch": [
       {
-        "kind": "wait",
-        "ms": 2500
+        "kind": "expectText",
+        "region": {
+          "x": 0,
+          "y": 0,
+          "w": 1600,
+          "h": 1000
+        },
+        "texts": [
+          "Connect GitHub",
+          "Skip for now",
+          "Give feedback",
+          "feedback",
+          "Automations"
+        ],
+        "timeoutMs": 60000
       },
       {
-        "kind": "click",
+        "kind": "clickIfText",
+        "region": {
+          "x": 600,
+          "y": 450,
+          "w": 400,
+          "h": 215
+        },
+        "texts": [
+          "Connect GitHub",
+          "Skip for now"
+        ],
         "point": {
           "x": 799,
           "y": 638
-        }
+        },
+        "timeoutMs": 3000,
+        "confirmGone": true
       },
       {
-        "kind": "wait",
-        "ms": 1500
-      },
-      {
-        "kind": "keys",
-        "combo": "cmd+enter"
+        "kind": "clickIfText",
+        "region": {
+          "x": 715,
+          "y": 540,
+          "w": 170,
+          "h": 42
+        },
+        "texts": [
+          "Start shipping",
+          "shipping"
+        ],
+        "point": {
+          "x": 777,
+          "y": 561
+        },
+        "timeoutMs": 10000,
+        "confirmGone": true
       },
       {
         "kind": "wait",
@@ -156,6 +192,21 @@
           "main"
         ],
         "timeoutMs": 30000
+      },
+      {
+        "kind": "expectText",
+        "region": {
+          "x": 740,
+          "y": 436,
+          "w": 440,
+          "h": 48
+        },
+        "texts": [
+          "Open project",
+          "project",
+          "directory"
+        ],
+        "timeoutMs": 60000
       },
       {
         "kind": "click",
@@ -352,7 +403,11 @@
     "waitDone repair 2026-11-06 (checked): all tasks share ~/arena/emdash, so the default waitDone took the end of turn of an A10 stream (session 4813e230, replay:stream-3) as the end of the long A11 thread. A11 setup started 33 s before the last long-2000 request, the thread was still at step 489, and 'open' timed out; the earlier gates passed only because they started 15 s before it, and their 15 s 'open' was the agent still working. emdash.ts now waits, after a task's first send, for a log born after that send.",
     "A3 newThreadComposerRect (ADEMARK-55), checked 2026-11-10 on 1.2.10 with control-2026-11-10T08-31-19Z-emdash-1/emdash/A3/rep-02/video.mov. cmd+n opens a Create Task modal over the old thread, which stays on screen behind it, so the old thread's marker never goes: the night's 17.9 s came from one frame where OCR missed it. The proof is the echo in the modal's prompt box instead. At 0 s, before cmd+n, the old thread's transcript is at y 100 to 250, its composer (the Claude Code input) at y 921, and nothing is drawn at y 551 to 636. At 3 s the prompt box is x 561 to 1039, y 551 to 636, text line at y 573, and the old transcript and composer are still in the same places, outside it. newThreadComposerRect (x 565 to 1035, y 558 to 590) overlaps neither them nor activeComposerRect (y 908 to 934). If cmd+n fails, the probe goes to the old composer at y 921, and the Claude Code TUI shows no typed text in its transcript before Enter, so nothing is ever read in this region.",
     "A3 timed.newThread keeps its wait of 800 ms and the click on the prompt box (770,573), checked 2026-11-10 on the same video. The modal opens with the caret in the task name field (giant-deer-own, frames at 0.18 and 0.4 s), so without the click the probe types the task name. The modal is drawn about 150 ms after cmd+n, and the echo's own focusClick is posted right after the triggers with no wait, so it would land on the old thread. The 800 ms is a fixed wait inside the stopwatch: A3's notes give it as fixed_wait_ms. A real fix needs a trigger that waits for the modal (native helper).",
-    "A1 and A2 checked 2026-11-10 (ADEMARK-55, low spread on a long time): the first read is the first frame with any text in launchComposerRect, 7 characters in A2 (about 1.95 s into the video) and 10 to 13 in A1 (about 2.2 s). Before it the Claude pane is blank (A2 rep-01 video at 1.6 and 1.85 s): the terminal buffers the keys, and Claude Code draws its input already holding them. The times (A1 about 4.2 s, A2 about 3.1 s) are the real start of the CLI inside the app."
+    "A1 and A2 checked 2026-11-10 (ADEMARK-55, low spread on a long time): the first read is the first frame with any text in launchComposerRect, 7 characters in A2 (about 1.95 s into the video) and 10 to 13 in A1 (about 2.2 s). Before it the Claude pane is blank (A2 rep-01 video at 1.6 and 1.85 s): the terminal buffers the keys, and Claude Code draws its input already holding them. The times (A1 about 4.2 s, A2 about 3.1 s) are the real start of the CLI inside the app.",
+    "Repair 2026-11-22 on 1.2.13 (night control-2026-11-22T09-46-47Z, no live screen). emdash-tokens-1 had no project: every B row 'the turn failed', 0 projects and 0 tasks in that run's emdash4.db. Cause: the blind first-run steps. On fresh data the window stays blank until the account session and legacy import queries settle (AppContent in out/renderer/assets/index-X1ePbyfx.js: isLoading renders only FramelessTitlebarOverlay, which is null on macOS). Through the Track B capture that took more than 2.5 s, so the Skip click at 2.5 s hit a blank window. The first clear agent then found 'Connect GitHub' (tokens-1/agent/2026-11-22T17-24-03-096Z-001-clear-emdash/look-01.png), clicked Skip itself and left the 'Welcome. Start shipping' screen (look-03.png). openProject ran its blind clicks on that screen, its cmd+enter only passed Welcome, and the B1 newThread click at 770,573 then hit 'Clone from GitHub' on the empty home (the Clone dialog in emdash/agent/B1-rep-01-002-recover/look-01.png). Track A (emdash-1) and the top-up got the home in time (their first clear looks show it), and their projects were made.",
+    "afterLaunch since 2026-11-22: (1) expectText on the whole window until the first screen draws: 'Connect GitHub' or 'Skip for now' (onboarding, SignInStep) or the sidebar footer 'Give feedback' or 'Automations' (every workspace view; sidebar labels in index-X1ePbyfx.js). (2) clickIfText on 'Connect GitHub' or 'Skip for now' in 600,450,400,215, click 799,638. Measured on tokens-1 look-01.png: heading x 725 to 875, y 459 to 480; Skip for now button x 608 to 991, y 619 to 658. The clear agent's click at 800,639 on that screen moved it on (look-02.png). (3) clickIfText on 'Start shipping' in 715,540,170,42, click 777,561. Measured on look-03.png: button x 723 to 876, y 548 to 574, label x 734 to 819. The Welcome items fade in and rise 20 points (containerVariants: delay 0.7 s, stagger 0.3 s, 0.9 s each), so the tight region reads the label only near its final place. Start shipping reloads the window (onGetStarted). On a relaunch with the same data neither text shows, so steps 2 and 3 click nothing and cost about 13 s, untimed. The old blind click and cmd+enter landed in the last task's terminal on every relaunch.",
+    "openProject since 2026-11-22: expectText on the home row 'Open project' (region 740,436,440,48, texts 'Open project', 'project', 'directory') before the click at 826,450, because the reload after Start shipping is blank again while the queries load. Row measured on tokens-1/emdash/agent/B1-rep-01-001-before/look-01.png (light) and emdash-1/agent/2026-11-22T10-01-16-008Z-001-clear-emdash/look-01.png (dark): 'Open project' x 784 to 870, y 443 to 457; 'Create a project from an existing local directory' x 784 to 1053, y 465 to 478. The rest of openProject did not move on 1.2.13. Source: the row opens the Add Project modal in mode 'pick' (PROJECT_ACTIONS) with the name field autoFocus. The Pick Directory dialog (tokens-1/emdash/agent/B1-rep-02-003-recover/look-03.png, opened by a click at 823,450) has Choose at x 974 to 1034, y 537 to 560, so 1003,548 holds. emdash-1 made project 'arena' with auto-approve on ('bypass permissions on' in emdash-1/emdash/agent/A4-rep-01-002-recover/look-01.png) and the repository directory (~/arena/emdash in the same shot). Telemetry: tokens-1's emdash4.db has kv telemetry:enabled \"false\" after its one reset, so TELEMETRY_OFF (75,932; 1404,470; 231,20) still works. NOT YET SEEN ON SCREEN: the new afterLaunch and expectText steps in a real run.",
+    "Not a profile fault, 2026-11-22: emdash-1 ran at 05:00 to 05:51 local time with the ademark account's appearance on Auto (AppleInterfaceStyleSwitchesAutomatically 1), so Emdash and the Claude Code TUI were dark. OCR read the A4 answer as 'LEDGEPJIARK' in all 3 reps (emdash-1/emdash/A4/rep-0*/frames.json; fuzzy 2 does not reach it), and the A11 end marker as 'L(A4GTHREAF&ID' for 420 s (A11/rep-01/frames-drain.json), so A4 timed_out and A11 'long thread not built'. The light top-up read 'LEDGERMARK' and 'L(NGTHREAD-END' and passed (topup-1/emdash/A4, A11). The v1 run at 06:53 local was light. The fix is the machine's appearance or the markers, both outside this profile."
   ],
   "agentGuide": "Work happens in tasks. Cmd+N opens the new task dialog, and its Create button starts the task with the agent."
 }

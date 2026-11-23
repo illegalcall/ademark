@@ -437,7 +437,7 @@ describe("zeron dry run", () => {
       "plan: press pid=0 combo=enter",
       "plan: typeText pid=0 text=zeron",
       "plan: press pid=0 combo=enter",
-      "plan: press pid=0 combo=cmd+enter",
+      "plan: press pid=0 combo=enter",
     ]);
 
     lines.length = 0;
