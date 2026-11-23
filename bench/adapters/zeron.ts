@@ -50,10 +50,15 @@ export const calibration = {
   // `newSession: mod-n` in ~/.zeron/ui-settings.json.
   newThreadShortcut: "cmd+n",
   // `newProject: mod-shift-n` opens a device picker, then a locations list (Home first, then the drives), then a folder
-  // browser: typing filters the current folder, Enter opens the highlighted folder, Cmd+Enter adds the folder being
-  // browsed (not the highlighted one) as the project. A full path typed in the search finds nothing.
+  // browser: typing filters the current folder, Enter opens the highlighted folder.
+  // Zeron 0.3.15 (night control-2026-11-22T09-46-47Z, zeron/failure-A-1.png): Cmd+Enter no longer adds the folder being
+  // browsed. The walk reached "Home > arena > zeron", Cmd+Enter did nothing, and the seed prompt went into the picker.
+  // Source, /Applications/Zeron.app/Contents/Resources/ui: screens/shell/add_project.luau `folder_page` lists "Add this
+  // folder" (id `add-here`, `run = M.add`) as the first row of every folder page, and ds/command_palette.luau `push`
+  // clears the search and the highlight lands on the first row. `activate` runs Enter on that row; Cmd+Enter runs only
+  // a row's `alt`, and `add-here` has none. So Enter on the opened folder's page adds it as the project.
   newProjectShortcut: "cmd+shift+n",
-  addProjectKeys: "cmd+enter",
+  addProjectKeys: "enter",
 };
 
 export interface ZeronState {

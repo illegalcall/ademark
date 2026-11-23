@@ -21,7 +21,7 @@
     "appName": "Cloudroom",
     "bundleId": "dev.cloudroom.gui",
     "composerRect": {
-      "x": 612,
+      "x": 609,
       "y": 79,
       "w": 704,
       "h": 103
@@ -33,7 +33,7 @@
       "h": 44
     },
     "launchComposerRect": {
-      "x": 612,
+      "x": 609,
       "y": 79,
       "w": 704,
       "h": 103
@@ -129,24 +129,6 @@
         "ms": 1000
       },
       {
-        "kind": "clickIfText",
-        "region": {
-          "x": 1268,
-          "y": 312,
-          "w": 160,
-          "h": 26
-        },
-        "texts": [
-          "Get started",
-          "started"
-        ],
-        "point": {
-          "x": 1551,
-          "y": 545
-        },
-        "timeoutMs": 2000
-      },
-      {
         "kind": "run",
         "argv": [
           "/opt/homebrew/bin/node",
@@ -185,14 +167,36 @@
         "ms": 2000
       },
       {
+        "kind": "clickIfText",
+        "region": {
+          "x": 1276,
+          "y": 489,
+          "w": 160,
+          "h": 26
+        },
+        "texts": [
+          "Get started",
+          "started"
+        ],
+        "point": {
+          "x": 1559,
+          "y": 722
+        },
+        "timeoutMs": 2000
+      },
+      {
         "kind": "expectText",
         "region": {
-          "x": 860,
-          "y": 255,
-          "w": 120,
-          "h": 24
+          "x": 604,
+          "y": 196,
+          "w": 150,
+          "h": 28
         },
-        "text": "One-click",
+        "texts": [
+          "project",
+          "proiect",
+          "arena"
+        ],
         "timeoutMs": 5000
       },
       {
@@ -289,18 +293,22 @@
       {
         "kind": "expectText",
         "region": {
-          "x": 860,
-          "y": 255,
-          "w": 120,
-          "h": 24
+          "x": 604,
+          "y": 196,
+          "w": 150,
+          "h": 28
         },
-        "text": "One-click",
+        "texts": [
+          "project",
+          "proiect",
+          "arena"
+        ],
         "timeoutMs": 5000
       },
       {
         "kind": "goal",
         "maxActions": 8,
-        "goal": "Below the composer are two selectors: the project (it reads a project name such as ADEMark or arena) and the environment next to it (it may read Cloud). Make the project selector read 'arena', and the environment a local one on this Mac, not Cloud. Click the project selector and choose the project named exactly 'arena' (not ADEMark or any other). If the environment selector reads Cloud, click it and choose the local option. Change nothing else, and never send a message. Done when the project reads arena and the environment is not Cloud."
+        "goal": "Below the composer are two selectors: the project (it reads a project name such as ADEMark or arena, or 'Work in a project') and the environment next to it (it may read Local, Local Worktree or Cloud). Make the project selector read 'arena', and the environment the option named exactly 'Local'. Click the project selector and choose the project named exactly 'arena' (not ADEMark or any other). If the environment selector does not read exactly Local, click it and choose 'Local' (not Local Worktree, not Cloud). Never click the two dark scan cards below the selectors (Scan my workflow, Cyber scan) or a row of the Get started card: a scan card starts a Cloud agent, and a row fills in a prompt. Change nothing else, and never send a message. Done when the project reads arena and the environment reads Local."
       },
       {
         "kind": "wait",
@@ -372,7 +380,7 @@
       {
         "kind": "goal",
         "maxActions": 1,
-        "goal": "Only look, click nothing. Below the composer, the project selector must read 'arena' and the selector to its right must not read 'Cloud'. If both are true answer done. If the project is anything else, or the environment reads Cloud, answer fail and say what they read."
+        "goal": "Only look, click nothing. Below the composer, the project selector must read 'arena' and the selector to its right must read exactly 'Local' (not Cloud, Local Worktree, Cloud Worktree or VPS). If both are true answer done. If the project is anything else, or the environment is not Local, answer fail and say what they read."
       }
     ],
     "configure": {
@@ -471,7 +479,14 @@
     "2026-11-11: openProject picks the project with the screen agent, not with a fixed click. In control-2026-11-10T08-31-19Z-cloudroom-4 the click on the first row of the project list (630,308) picked 'ADEMark', a project that appeared in the account that day, in the Cloud environment, and the step that reads 'Full' stopped the block twice (waits/*-Full.png: project ADEMark, environment Cloud, sidebar with arena and ADEMark). The reads of 'Full', 'arena' and 'High' after it are unchanged, so another project or the cloud still stops the block.",
     "2026-11-11: the app updated itself from 129.0.0 to 150.0.0 between two runs of the same day (manifest ade_versions of control-2026-11-10T08-31-19Z-cloudroom-3 and -cloudroom-4), and that is why -cloudroom-4 failed after -cloudroom-3 measured 86 valid rows. On 150 (waits/2026-11-11T16-19-32-547Z-Full.png, 1600x1000): the composer is unchanged (text box y 65 to 190, 'Opus 5.5 | High' at y 166, project and environment selectors at y 210, 'One-click prompts' at y 265), a project 'ADEMark' exists beside 'arena' and is the selected one, the environment selector reads 'Cloud', and the access indicator 'Full' moved from (1210,196) to the sidebar footer at about (290,977). So the read of 'Full' now looks there, and since it no longer tells a local environment from the cloud, a last look of the screen agent fails the block unless the project is arena and the environment is not Cloud. app.version is 150.0.0; bundleSha256 is still the one of 129 and must be read again at the next calibration. In the owner's account the app cannot be opened beside another app that runs a local server: it takes that app's server for a running Cloudroom.",
     "2026-11-11, third pass (control-2026-11-10T08-31-19Z-cloudroom-5): the screen agent put the new thread on arena and Local in both blocks, and the block still stopped at openProject[13]: 'Full' did not show. The note above was wrong: 'Full Access' did not move, it shows at (1253,211) only for a local environment, and the frame of 16:19 was on Cloud. The sidebar footer 'Full' at (290,977) is 11 px text that OCR never reads (0 of 36 frames, and ademark-native ocr on the saved screenshot reads nothing there). So openProject reads 'Full' in the afterLaunch region again (1210,196,120,28: OCR reads 'Full Acces5 V'), which also tells Local from Cloud. The 'High' region (716,152,100,28) cut the model name in half and read 'g' on the same frame; it is now (640,150,180,32), which reads '* Opus 5.5 | High'. Both regions were read with the real helper on the four screenshots of that run before the change, and bench/test/adapters-profiles.test.ts reads every expectText of openProject on one of them (bench/test/fixtures/cloudroom-150-new-thread.png). Rule: a new or moved OCR region is read with ademark-native ocr on a real screenshot before it ships.",
-    "2026-11-12, C1 empty diff (control-2026-11-10T08-31-19Z-cloudroom-orchestration-1): openProject runs again for every freshArena worktree (launch opens ~/arena/cloudroom, each C1 rep opens ~/arena/cloudroom-C1-<n>), and a second 'project create --name arena' makes a second project with the same name. The picker cannot tell them apart, the screen agent picked the first, and the C1 threads ran in ~/arena/cloudroom while the graded ~/arena/cloudroom-C1-1 stayed at the base commit. openProject now runs bench/adapters/arena-project.mjs free before create (renames every project named arena to prior-<id> and hides it, threads kept) and verify after create (fails the step unless exactly one arena project sources ${worktree}). The visible name stays 'arena', so the OCR checks are unchanged. The script needs the app running for room-cli, which openProject always has; it is never called from reset or quit. bb.json runs the same helper without hide (bb project has no hide) plus a front step, because bb's picker clicks the first row."
+    "2026-11-12, C1 empty diff (control-2026-11-10T08-31-19Z-cloudroom-orchestration-1): openProject runs again for every freshArena worktree (launch opens ~/arena/cloudroom, each C1 rep opens ~/arena/cloudroom-C1-<n>), and a second 'project create --name arena' makes a second project with the same name. The picker cannot tell them apart, the screen agent picked the first, and the C1 threads ran in ~/arena/cloudroom while the graded ~/arena/cloudroom-C1-1 stayed at the base commit. openProject now runs bench/adapters/arena-project.mjs free before create (renames every project named arena to prior-<id> and hides it, threads kept) and verify after create (fails the step unless exactly one arena project sources ${worktree}). The visible name stays 'arena', so the OCR checks are unchanged. The script needs the app running for room-cli, which openProject always has; it is never called from reset or quit. bb.json runs the same helper without hide (bb project has no hide) plus a front step, because bb's picker clicks the first row.",
+    "2026-11-22, 162.0.0: control-2026-11-22T09-46-47Z-cloudroom-1 and -2 stopped 4 times at afterLaunch[10]: 'One-click' did not show. The four wait screenshots (cloudroom-1/waits/2026-11-22T16-08-51-637Z-One-click.png and 16-09-35-594Z, cloudroom-2/waits/2026-11-22T16-24-18-902Z and 16-25-02-807Z, 1600x1000) show the empty new thread of 162: the composer 'Build anything...' with 'Opus 5.5 | High', then 'Work in a project', 'Local' and 'Full Access' at y 210, two dark scan cards where the One-click prompts were (x 607 to 951 and 963 to 1307, y 258 to 434), and the Get started card at the right (x 1269 to 1587, y 476 to 740). The 162 renderer (app.asar, bb-app/app/dist/assets/index-C6lveHMt.js) has no 'One-click prompts' text at all: the section is now 'One-click scans', and it shows only while the account's activation asks for it, else a free-plan tip or nothing. So afterLaunch[10] and openProject[6] read the project selector instead: region (604,196,150,28), texts project, proiect or arena. ademark-native ocr reads '* Work in a project v' there on all four 162 screenshots (the crop (600,196,160,28) reads 'proiect') and 'arena v' on bench/test/fixtures/cloudroom-150-new-thread.png. Like the old check, it proves the empty new thread with its composer at the calibrated place before the fixed clicks, on Local and on Cloud. arena stays in the list because Cmd+N after a thread in arena keeps arena (2026-11-05 note), which A1 and A2 see after a relaunch.",
+    "2026-11-22, what afterLaunch[11] to [17] do, from look-04 of control-2026-11-10T08-31-19Z-cloudroom-5/agent/2026-11-11T18-47-41-654Z-002-goal (150): (765,210) opens the environment selector, (830,248) picks its first row 'Local', Cmd+N opens a Local thread, and 'Full' reads the Full Access chip, which only a local environment shows. On 162 that row did not move: in a 4x crop of cloudroom-2/waits/2026-11-22T16-24-18-902Z-One-click.png the laptop icon of 'Local' is at x 761 to 775, y 205 to 215, and 'Full' in (1210,196,120,28) reads 'Full AccesS V' on all four screenshots. The 162 environment menu still lists Local first (project-checkout sorts first), then Local Worktree, then Cloud, VPS when the account has one, and Add machine; it is w-80 (320 points) wide. So these points are unchanged. Nobody has seen the open menu on 162 yet.",
+    "2026-11-22, Get started card on 162: it is a corner card (fixed, right-3, w-[320px]) whose top is 475 on the new-thread route while the scan cards are wanted, 260 when they are not, and 52 on other routes (NYe and the corner list Sqe in index-C6lveHMt.js). All four screenshots show top 475: title 'Get started' at (1285,501), Hide at (1547 to 1571, 718 to 726). ademark-native ocr reads 'Get started' in (1276,489,160,26) on all four and nothing in the two old card regions (1268,364 and 1268,312). The no-banner card step (1268,312 / 1551,545, never measured) is replaced by the measured one, clicking Hide at (1559,722), and it now runs after the first Cmd+N and its 2 s wait, because only the new-thread route puts the card there. The card step for the banner layout (1268,364 / 1551,597, measured on 129) stays and reads nothing on 162. Hide keeps the card away 8 hours or more (cloudroom.activation.hiddenUntil in Local Storage, which reset keeps); then another corner card (wrapped, scan or partner), if the account has one, may take the same corner after 5 s.",
+    "2026-11-22, composer on 162: the caret of the empty composer is at (609,79,1,16) in every frame of the four 162 frames.json, against (612,79,1,16) on 150 (control-2026-11-10T08-31-19Z-cloudroom-4 and -5 waits/*-frames.json). The sidebar is now a floating panel that ends at x 314, so the main pane centers on x 957, not 960, and the composer box runs from x 593 to 1321. composerRect and launchComposerRect move 3 points left, to x 609; y and size are unchanged. activeComposerRect is not changed: no capture of a thread with messages on 162 exists.",
+    "2026-11-22, Cloud hazards new in 162: a click on a scan card starts a Cloud scan at once (scans_start in index-C6lveHMt.js), and a Get started row opens a new thread with a prompt filled in, which the next Enter would send. The openProject click (754,281) lies inside the Workflow scan card whenever the effort menu is not open. The menu opens from (766,166): the effort button stacks every effort label in one grid cell, so it is as wide as 'Extra High' and reaches past x 766 ('High' itself ends at x 759). The Claude Code provider of 162 lists Low, Medium, High, Extra High, Ultracode and Max, and the menu hides Ultracode unless defaults.showUltraEfforts is true (default false), so High stays the third row. The goals and agentGuide now say never to click the scan cards or a Get started row, and to pick the environment named exactly Local: Local Worktree is git-worktree and runs in a new worktree, not in ${worktree}.",
+    "2026-11-22: the sidebar on 162 lists four Cloud threads of the account (green cloud icons, flat 'Threads' list): three 'replay:seed' and 'Find leaked API keys and passwor...'. They are not from this night, since both blocks stopped before any thread was sent. The owner should check them on the cloudroom.dev account. In cloudroom-1's first attempt the Get started card read 2 of 5 with 'Start a Cloud agent' done; later attempts read 0 of 5.",
+    "2026-11-22, NEEDS SCREEN on 162 (values not changed): the open environment menu ('Local' at 830,248?), the open effort menu ('High' at 754,281?), 'arena' in (610,196,80,28) after the project pick, activeComposerRect (docked composer of a thread with messages), threadRect and masks during a reply, the update banner layout, and whether Cmd+1 and Cmd+2 (A11) open the run's long and short threads with the four Cloud threads in the sidebar."
   ],
-  "agentGuide": "Threads are listed in the sidebar. Cmd+N starts a new thread; its message box sits at the bottom of the thread. An update banner may show across the top: never press its Restart to update button (it asks for the Mac password and changes the measured version); its X at the far right closes it."
+  "agentGuide": "Threads are listed in the sidebar. Cmd+N starts a new thread; its message box sits at the bottom of the thread. An update banner may show across the top: never press its Restart to update button (it asks for the Mac password and changes the measured version); its X at the far right closes it. On the empty new thread (162), never click the two dark scan cards below the composer (Scan my workflow, Cyber scan) or a row of the Get started card at the right: a scan card starts a Cloud agent at once, and a Get started row fills in a prompt that the next Enter would send. Hide, at the bottom right of that card, only hides it."
 }

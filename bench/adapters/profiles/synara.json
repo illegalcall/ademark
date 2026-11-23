@@ -101,6 +101,17 @@
         "ms": 900
       },
       {
+        "kind": "click",
+        "point": {
+          "x": 800,
+          "y": 476
+        }
+      },
+      {
+        "kind": "wait",
+        "ms": 300
+      },
+      {
         "kind": "paste",
         "text": "${worktree}"
       },
@@ -242,7 +253,8 @@
     "BLOCKER (gate 2026-10-24 runs 2-3: only A1 first-launch and A2 relaunch fail): every quit shows Synara's in-app modal 'Quit Synara? Are you sure you want to quit?' (runningChatsQuitGuard: shown on before-quit and window-close even with no chat running; SIGINT/SIGTERM go through app.quit and the same modal; no setting found). The harness's AppleScript quit then times out (-1712), the app and its server stay alive past the 10 s wait, and the next launch reaches the dying instance: 'window_not_found: pid ... showed no on-screen window', a Gatekeeper sheet ('\"Synara\" is an app downloaded from the Internet') appeared while that instance was still alive, and the quiet-CPU gate before A2 failed. steps.quit with keys (cmd+q, Enter) cannot run in A1/A2, where the harness has no app pid ('--pid must be a positive pid', seen with Claude desktop), and pkill -9 would make A9 meaningless. Needs a harness change: resolve the pid for steps.quit, or confirm the modal after quitApp. Every other Track A test was valid in gate runs 2 and 3 (A3-A11, A4 through the replay server).",
     "afterLaunch (2026-11-06): 1.5 s was too short after a reset: cmd+shift+o was lost, no project was made, and every prompt landed in an old chat. With the app ready, the same steps made the project and answered on claude-opus-5-5.",
     "2026-11-10 (ADEMARK-53): A2 failed 6 of 6 and the top-up 3 of 3 with 'quit failed: the app is still running', and A9 no-sessions reps 2 and 3 found main Synara (ppid 1), its Synara server child, the renderer and a helper alive 60 s after the quit, so those two A9 rows weighed an app that never quit. The quit event still opens the in-app modal and the profile quit's Enter does not confirm it. Synara 1.1.0 (installed; app.version here still says 1.0.7) handles SIGTERM after startup with requestGracefulAppQuit, without the modal (src/shutdownSignals.ts in app.asar), so synara.ts now sends TERM to the main process before the profile quit. Not yet seen on the real screen.",
-    "2026-11-11: configure.claude no longer clicks. Synara 1.1.0 added Fable 5 to the model picker, so the fixed point (1177,713) that was Opus 5.5 on 1.0.7 picked Fable 5: the tokens step and C1 of that night ran on claude-fable-5 (33 B rows 'wrong model: claude-fable-5'; C1 screenshot-start reads 'Fable 5 High'). The seed already restores Opus 5.5 High as the last model (the look after launch, before configure, reads 'Opus 5.5 High' at x 1145 to 1250, y 960, on the home composer and on a project composer alike). configure.claude now only reads that text there and stops the block when it is not Opus 5.5, so a changed picker can never measure another model."
+    "2026-11-11: configure.claude no longer clicks. Synara 1.1.0 added Fable 5 to the model picker, so the fixed point (1177,713) that was Opus 5.5 on 1.0.7 picked Fable 5: the tokens step and C1 of that night ran on claude-fable-5 (33 B rows 'wrong model: claude-fable-5'; C1 screenshot-start reads 'Fable 5 High'). The seed already restores Opus 5.5 High as the last model (the look after launch, before configure, reads 'Opus 5.5 High' at x 1145 to 1250, y 960, on the home composer and on a project composer alike). configure.claude now only reads that text there and stops the block when it is not Opus 5.5, so a changed picker can never measure another model.",
+    "2026-11-22, Synara 1.6.5 (night control-2026-11-22T09-46-47Z, synara-1 and synara-2 failure-A-1.png, both the same): seed thread 1/5 timed out because openProject pasted the path into the wrong field. The Create project dialog now has two fields. Its source (app.asar apps/server/dist/client/assets/_chat-cZ_eITgR.js, function mx) focuses the 'Project name' field on open (getElementById(`${id}-name`).focus()), and the path field ('/path/to/project', `${id}-path`) is the second one. Enter in either field submits (onKeyDown Re -> Le), so the run made a project with no path and got 'Choose a source folder or type its path.', and the seed text went into the name field. openProject now clicks the path field before the paste. Measured in failure-A-1.png (PNG 1600 x 1000 = window points): path field border x 565 to 1034, y 450 to 485, with the error line shown (glyph rows y 677 to 686). The dialog sits in the middle row of a grid-rows-[1fr_auto_1fr] viewport (dialog-0GWIese_.js), and on open the error is cleared (q(null)), so at open it is about 32 points shorter (16 points space-y-4 gap plus one text-ui-xs line) and the field is about 16 points lower, at y 466 to 501. The click at (800,476) is inside the field in both layouts. Typing in the path field fills the name from the last folder, and Enter there creates the project and opens its chat (Cf: 'Project creation was superseded before its chat opened'). Not yet seen on the real screen."
   ],
   "agentGuide": "Cmd+N starts a new thread in the current project. A What's new popout at the bottom left closes only with its X."
 }
