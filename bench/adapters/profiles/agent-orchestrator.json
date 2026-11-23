@@ -3,8 +3,8 @@
   "ade": "agent-orchestrator",
   "app": {
     "path": "/Applications/Agent Orchestrator.app",
-    "version": "0.15.3",
-    "bundleSha256": "db4aed99aa1b49a517d25aff71c0048d3fc969089104631505ab8a0bd9b62746",
+    "version": "0.15.5-nightly.202611230257",
+    "bundleSha256": "f8db9fcc51729812f6642a91cb089127d854d465d7be631d1a69859d184ccf75",
     "processNames": [
       "agent-orchestrator",
       "Agent Orchestrator Helper",
@@ -242,7 +242,7 @@
       "~/.ao"
     ],
     "launchAgentLabels": [],
-    "teamId": null,
+    "teamId": "X9LNSP8MC2",
     "agentExecutables": [
       "claude",
       "/Users/ademark/.local/share/claude/versions/"
@@ -256,7 +256,7 @@
     "A2": "Same as A1: no composer after launch. Also, Cmd+Q (AppleScript quit) only closes the window: the main process (tray), the daemon, every ao-chat-host and its claude stay alive, so a relaunch would come back warm. Only the tray menu item 'Quit Orchestrator Completely' ends the app."
   },
   "notes": [
-    "Calibrated 2026-11-22 in the ademark account on a source build of OrchestratorInc/agent-orchestrator main 994b75ad66 (contains f8601f2049), packaged with npm run package (Node 24.22.3, Go 1.27.4), unsigned (ad-hoc), CFBundleShortVersionString 0.15.3. Not a public release: rows are not comparable to published values.",
+    "Calibrated 2026-11-22 in the ademark account on a source build of OrchestratorInc/agent-orchestrator main 994b75ad66 (contains f8601f2049, ad-hoc signed, CFBundleShortVersionString 0.15.3). Pinned 2026-11-23 to the public nightly v0.15.5-nightly.202611230257 (commit acddfae, 25 commits after 994b75ad66), Developer ID signed and notarized, team X9LNSP8MC2. The zip matched the sha512 in the release's nightly-mac.yml. The diff since the calibrated build leaves the telemetry overrides and Cmd+N unchanged and removes the sidebar row animations; row sizes are the same. The gate on this build checks the calibration.",
     "First run on a fresh ~/.ao: a 'Create an account' onboarding (continue without an account), then a Tools and Harnesses page that opens a gh auth login terminal by itself (it started Chrome for the GitHub device flow; closed, nothing signed in), then Skip setup. ~/.ao/app-state.json firstRunProjectPrompt 'seen' suppresses it; the seed restores that file.",
     "Auto-update is on by default (channel nightly). On this source build it downloaded 0.15.4-nightly.202611212010 and failed verification. ~/.ao/update-settings.json enabled false (seed and reset.jsonKeys). Updater caches in ~/Library/Caches are in dataDirs so a downloaded update cannot install on a quit.",
     "Telemetry is on by default for packaged builds (PostHog from renderer and daemon, Sentry). The adapter sets AO_TELEMETRY_EVENTS=off, AO_TELEMETRY_METRICS=off, AO_TELEMETRY_REMOTE=off, AO_TELEMETRY_RENDERER=off, AO_SENTRY_DSN and AO_ELECTRON_SENTRY_DSN empty through launchctl setenv before every launch (frontend/src/main.ts telemetryOverrides: explicit env wins).",
